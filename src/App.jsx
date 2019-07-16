@@ -54,9 +54,9 @@ export default function App() {
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
+      
       >
-        <DialogTitle />
-        <DialogContent>
+      
           <Paper square className={classes.root}>
             <Tabs
               value={value}
@@ -78,12 +78,13 @@ export default function App() {
                 <RegisterWrapper />
               </TabContainer>
             )}
-          </Paper>
-        </DialogContent>
-
-        <Button onClick={handleClose} color="primary">
+            <Button  fullWidth onClick={handleClose} color="primary">
           Cancel
         </Button>
+          </Paper>
+      
+
+        
       </Dialog>
     </div>
   );

@@ -2,14 +2,18 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import {renderTextField}  from './Helpers/RenderInputs'
- 
+import {renderTextField}  from './Helpers/RenderInputs';
+import {validate}  from './Helpers/RenderInputs'
+import asyncValidate from './Helpers/asyncValidate'
+
+
 class Auth extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
+    const {pristine, reset, submitting} = this.props;
     return (
       <div className="auth">
         <form name="auth" onSubmit={this.props.handleSubmit}>
@@ -18,12 +22,10 @@ class Auth extends React.Component {
               name="email"
               component={renderTextField}
               label="E-mail:"
-              type="email"
             />
           </div>
           <div>
             <Field
-            
               name="password"
               component={renderTextField}
               label="Password:"
@@ -31,8 +33,11 @@ class Auth extends React.Component {
             />
           </div>
           <div>
-            <DialogActions>
-              <Button type="submit" value="Login" color="primary">
+            <DialogActions>          
+        <Button fullWidth={true} type="button" color="primary" disabled={pristine || submitting} onClick={reset}>
+       CLEAR
+        </Button >
+              <Button fullWidth={true} type="submit" value="Login" color="primary">
                 Sign In
               </Button>
             </DialogActions>
@@ -45,7 +50,9 @@ class Auth extends React.Component {
 
 Auth = reduxForm({
   // a unique name for the form
-  form: "login"
+  form: "Auth",
+  validate,
+  asyncValidate
 })(Auth);
 
 export default Auth;

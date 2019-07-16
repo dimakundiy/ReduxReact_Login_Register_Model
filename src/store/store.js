@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import {rootReducer} from "./rootReducer.js";
@@ -15,10 +15,16 @@ const initialState = {
     registerError: {}
    }
 };
+const enhancers = [];
+   const isDevelopment = process.env.NODE_ENV === 'development';
+     if (isDevelopment && typeof window !== 'undefined' && window.devToolsExtension) {
+       enhancers.push(window.devToolsExtension());
+     }
+
 
 const store = createStore(
   rootReducer,
   initialState,
-  applyMiddleware(thunk, logger)
+  compose(applyMiddleware(thunk, logger), ...enhancers)
 );
 export default store;

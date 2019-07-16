@@ -3,6 +3,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import {renderTextField}  from './Helpers/RenderInputs';
 import { Field, reduxForm } from "redux-form";
 import Button from "@material-ui/core/Button";
+import {validate}  from './Helpers/RenderInputs'
+import asyncValidate from './Helpers/asyncValidate'
 
  class Register extends React.Component {
   constructor(props) {
@@ -10,6 +12,7 @@ import Button from "@material-ui/core/Button";
 
   }
   render() {
+    const {pristine, reset , submitting} = this.props;
     return (
       <div className="register">
         <form  name="register" onSubmit={this.props.handleSubmit}>
@@ -39,8 +42,12 @@ import Button from "@material-ui/core/Button";
           </div>
           <div>
             <DialogActions>
-              <Button type="submit" value="Register"color="primary">Sign Up</Button>
-            </DialogActions>
+            <Button fullWidth={true} type="button" color="primary" disabled={pristine || submitting} onClick={reset}>
+               CLEAR
+        </Button >
+              <Button fullWidth={true} type="submit" value="Login" color="primary">
+                Sign Up
+              </Button> </DialogActions>
           </div>
         </form>
       </div>
@@ -50,7 +57,9 @@ import Button from "@material-ui/core/Button";
 
 Register = reduxForm({
   // a unique name for the form
-  form: "register"
+  form: "register",
+  validate,
+  asyncValidate
 })(Register);
 
 export default Register;
